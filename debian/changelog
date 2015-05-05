@@ -1,3 +1,9 @@
+consul (0.5.0-1~trusty1~ppa1) trusty; urgency=low
+
+  * No-change build for Trusty.
+
+ -- Maxim N. Kostrikin <mkostrikin@gmail.com>  Tue, 5 May 2015 13:41:40 +0000
+
 consul (0.4.1-1~utopic1~ppa1) utopic; urgency=low
 
   * No-change build for Utopic.
