@@ -17,7 +17,7 @@
 # Please see README.md for a more detailed description.
 
 BASE_DIR  = $(CURDIR)/pkg
-SRC_DIR   = $(BASE_DIR)/checkout/src/github.com/hashicorp/consul
+SRC_DIR   = $(BASE_DIR)/checkout/src/github.com/v7soft/consul
 DISTRO   ?= $(shell lsb_release -sc)
 REVISION ?= 1~$(DISTRO)1~ppa1
 MODIFIER ?= 
@@ -33,7 +33,7 @@ build: build_src
 	--buildresult buildresult
 
 build_src: prepare_src 
-	cd $(PKG_DIR) && debuild -S
+	cd $(PKG_DIR) && debuild -S -sa
 
 prepare_src: $(SRC_DIR) get_current_version create_upstream_tarball
 	rsync -qav --delete debian/ $(PKG_DIR)/debian
@@ -48,15 +48,20 @@ prepare_src: $(SRC_DIR) get_current_version create_upstream_tarball
 
 create_upstream_tarball: get_new_version
 	if [ ! -f pkg/consul_$(VERSION).orig.tar.gz ]; then \
-	  rm -rf $(PKG_DIR); \
-	  rsync -qav --delete $(BASE_DIR)/checkout/ $(PKG_DIR); \
-	  export GOPATH=$(PKG_DIR) && make -C $(PKG_DIR)/src/github.com/hashicorp/consul deps; \
-	  make -C $(PKG_DIR)/src/github.com/hashicorp/consul/ui dist; \
-	  tar czf pkg/consul_$(VERSION).orig.tar.gz -C $(BASE_DIR) consul-$(VERSION); \
+	   if [ -f debian/consul_$(VERSION).orig.tar.gz ]; then \
+		cp debian/consul_$(VERSION).orig.tar.gz pkg/consul_$(VERSION).orig.tar.gz;
+	   else
+	      rm -rf $(PKG_DIR); \
+	      rsync -qav --delete $(BASE_DIR)/checkout/ $(PKG_DIR); \
+	      export GOPATH=$(PKG_DIR) && make -C $(PKG_DIR)/src/github.com/v7soft/consul deps; \
+	      make -C $(PKG_DIR)/src/github.com/v7soft/consul/ui dist; \
+	      tar czf pkg/consul_$(VERSION).orig.tar.gz -C $(BASE_DIR) consul-$(VERSION); \
+	      cp pkg/consul_$(VERSION).orig.tar.gz debian/consul_$(VERSION).orig.tar.gz;
+	   fi
 	fi
 
 $(SRC_DIR):
-	git clone git@github.com:hashicorp/consul.git $(SRC_DIR)
+	git clone git@github.com:v7soft/consul.git $(SRC_DIR)
 
 get_current_version:
 	$(eval CURRENT_VERSION = $(shell test -f debian/changelog && \

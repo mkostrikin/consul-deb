@@ -1,3 +1,9 @@
+consul (0.5.1rc0-1~trusty1~ppa1) trusty; urgency=medium
+
+  * New upstream release.
+
+ -- Maxim N. Kostrikin <mkostrikin@gmail.com>  Wed, 06 May 2015 16:23:54 +0600
+
 consul (0.5.0-1~trusty1~ppa1) trusty; urgency=low
 
   * No-change build for Trusty.
