@@ -1,3 +1,15 @@
+consul (0.5.1rc1-1~trusty1~ppa1) trusty; urgency=medium
+
+  * New upstream release.
+
+ -- Maxim N. Kostrikin <mkostrikin@gmail.com>  Thu, 07 May 2015 14:24:52 +0600
+
+consul (0.5.1rc0-2~trusty1~ppa1) trusty; urgency=medium
+
+  * New upstream release.
+
+ -- Maxim N. Kostrikin <mkostrikin@gmail.com>  Thu, 07 May 2015 13:04:17 +0600
+
 consul (0.5.1rc0-1~trusty1~ppa1) trusty; urgency=medium
 
   * New upstream release.

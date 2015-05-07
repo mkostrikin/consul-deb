@@ -48,16 +48,16 @@ prepare_src: $(SRC_DIR) get_current_version create_upstream_tarball
 
 create_upstream_tarball: get_new_version
 	if [ ! -f pkg/consul_$(VERSION).orig.tar.gz ]; then \
-	   if [ -f debian/consul_$(VERSION).orig.tar.gz ]; then \
-		cp debian/consul_$(VERSION).orig.tar.gz pkg/consul_$(VERSION).orig.tar.gz;
-	   else
 	      rm -rf $(PKG_DIR); \
 	      rsync -qav --delete $(BASE_DIR)/checkout/ $(PKG_DIR); \
 	      export GOPATH=$(PKG_DIR) && make -C $(PKG_DIR)/src/github.com/v7soft/consul deps; \
 	      make -C $(PKG_DIR)/src/github.com/v7soft/consul/ui dist; \
+	   if [ -f consul_$(VERSION).orig.tar.gz ]; then \
+	      cp consul_$(VERSION).orig.tar.gz pkg/consul_$(VERSION).orig.tar.gz; \
+	   else \
 	      tar czf pkg/consul_$(VERSION).orig.tar.gz -C $(BASE_DIR) consul-$(VERSION); \
-	      cp pkg/consul_$(VERSION).orig.tar.gz debian/consul_$(VERSION).orig.tar.gz;
-	   fi
+	      cp pkg/consul_$(VERSION).orig.tar.gz consul_$(VERSION).orig.tar.gz; \
+	   fi; \
 	fi
 
 $(SRC_DIR):
